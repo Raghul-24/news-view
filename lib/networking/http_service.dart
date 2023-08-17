@@ -17,7 +17,7 @@ class HttpService {
       try {
         final response = await http.get(
           Uri.parse(endpoint),
-          headers: headers ?? await addAuthenticationHeader(),
+          headers: await addAuthenticationHeader(),
         );
         var responseJson = json.decode(response.body.toString());
         responseJson.putIfAbsent("status_code", () => response.statusCode);
@@ -31,6 +31,11 @@ class HttpService {
 Future<Map<String, String>> addAuthenticationHeader() async {
   return {
     'Content-Type': 'application/json',
+    'Host':'<calculated when request is sent>',
+    'User-Agent':'PostmanRuntime/7.32.3',
+    'Accept':'*/*',
+    'Accept-Encoding':'gzip, deflate, br',
+    'Connection':'keep-alive'
   };
 }
 

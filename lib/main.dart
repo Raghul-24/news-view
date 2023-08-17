@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:news_sample/common_news_cards/head_news_card.dart';
 import 'package:news_sample/common_news_cards/secondary_news_card.dart';
+import 'package:news_sample/controller/news_controller.dart';
 import 'package:news_sample/textStyles.dart';
 
 void main() {
@@ -34,6 +35,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  final NewsController _newsController = NewsController();
+
+  @override
+  void initState() {
+    _newsController.init();
+    _newsController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _newsController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

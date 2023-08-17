@@ -69,7 +69,7 @@ class SecondaryNewsCard extends StatelessWidget {
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 image: DecorationImage(
-                    image: NetworkImage("https://images.barrons.com/im-470039/social"),
+                    image: NetworkImage("https://images.wsj.net/im-834584/social"),
                     fit: BoxFit.cover
                 ),
               ), ),
