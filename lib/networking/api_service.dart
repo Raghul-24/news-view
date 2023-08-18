@@ -11,7 +11,6 @@ class ApiService implements ApiInterface {
         JSON? queryParams,
         required T Function(JSON responseBody) converter,
         Function(bool)? onError}) async {
-    print(endpoint);
     final data = await _httpService.get(
       endpoint: endpoint,
       queryParams: queryParams,
