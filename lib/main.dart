@@ -56,48 +56,50 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black12,
-      body: _newsController.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-            child: Column(
-              children: [
-                if (_newsController.newsResponse?.articles != null)
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 3,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount:
-                          _newsController.newsResponse?.articles!.length,
-                      itemBuilder: (context, index) => HeadNewsCard(
-                        headLines: _newsController
-                            .newsResponse?.articles![index].title,
-                        image: _newsController
-                            .newsResponse?.articles![index].urlToImage,
-                        time: _newsController
-                            .newsResponse?.articles![index].publishedAt,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.black12,
+        body: _newsController.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+              child: Column(
+                children: [
+                  if (_newsController.newsResponse?.articles != null)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 3,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount:
+                            _newsController.newsResponse?.articles!.length,
+                        itemBuilder: (context, index) => HeadNewsCard(
+                          headLines: _newsController
+                              .newsResponse?.articles![index].title,
+                          image: _newsController
+                              .newsResponse?.articles![index].urlToImage,
+                          time: _newsController
+                              .newsResponse?.articles![index].publishedAt,
+                        ),
                       ),
                     ),
-                  ),
-                ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  primary: false,
-                  itemCount: _newsController.secondaryNewsResponse
-                      ?.secondaryArticles!.length,
-                  itemBuilder: (context,index)=>
-                    SecondaryNewsCard(
-                      headLines: _newsController.secondaryNewsResponse
-                          ?.secondaryArticles![index].title,
-                      image: _newsController.secondaryNewsResponse
-                          ?.secondaryArticles![index].urlToImage,
-                      time: _newsController.secondaryNewsResponse
-                          ?.secondaryArticles![index].publishedAt,
-                    ),),
-              ],
+                  ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: _newsController.secondaryNewsResponse
+                        ?.secondaryArticles!.length,
+                    itemBuilder: (context,index)=>
+                      SecondaryNewsCard(
+                        headLines: _newsController.secondaryNewsResponse
+                            ?.secondaryArticles![index].title,
+                        image: _newsController.secondaryNewsResponse
+                            ?.secondaryArticles![index].urlToImage,
+                        time: _newsController.secondaryNewsResponse
+                            ?.secondaryArticles![index].publishedAt,
+                      ),),
+                ],
+              ),
             ),
-          ),
+      ),
     );
   }
 }
