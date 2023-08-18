@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'network_check.dart';
 
@@ -17,9 +18,10 @@ class HttpService {
       try {
         final response = await http.get(
           Uri.parse(endpoint),
-          headers: await addAuthenticationHeader(),
+          // headers: await addAuthenticationHeader(),
         );
         var responseJson = json.decode(response.body.toString());
+        log("Data from API$responseJson");
         responseJson.putIfAbsent("status_code", () => response.statusCode);
         return responseJson;
       } on Exception catch (_) {}

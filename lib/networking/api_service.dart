@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../networking/http_service.dart';
 
 class ApiService implements ApiInterface {
@@ -14,6 +16,7 @@ class ApiService implements ApiInterface {
       endpoint: endpoint,
       queryParams: queryParams,
     );
+    log("return Type${data.runtimeType}");
     return converter(data);
 
   }

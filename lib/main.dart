@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:news_sample/common_news_cards/head_news_card.dart';
 import 'package:news_sample/common_news_cards/secondary_news_card.dart';
 import 'package:news_sample/controller/news_controller.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
+
   final String title;
 
   @override
@@ -35,16 +37,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final NewsController _newsController = NewsController();
 
   @override
   void initState() {
-    _newsController.init();
     _newsController.addListener(() {
       setState(() {});
     });
     super.initState();
+    _newsController.init();
   }
 
   @override
@@ -56,19 +57,47 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Colors.black12,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Center(
+      backgroundColor: Colors.black12,
+      body: _newsController.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
             child: Column(
               children: [
-                for(int i =0;i<3;i++)...[const HeadNewsCard(), const SizedBox(height: 5),],
-                for(int i =0;i<8;i++)...[const SecondaryNewsCard(), const SizedBox(height: 5),],
+                if (_newsController.newsResponse?.articles != null)
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount:
+                          _newsController.newsResponse?.articles!.length,
+                      itemBuilder: (context, index) => HeadNewsCard(
+                        headLines: _newsController
+                            .newsResponse?.articles![index].title,
+                        image: _newsController
+                            .newsResponse?.articles![index].urlToImage,
+                        time: _newsController
+                            .newsResponse?.articles![index].publishedAt,
+                      ),
+                    ),
+                  ),
+                ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: _newsController.secondaryNewsResponse
+                      ?.secondaryArticles!.length,
+                  itemBuilder: (context,index)=>
+                    SecondaryNewsCard(
+                      headLines: _newsController.secondaryNewsResponse
+                          ?.secondaryArticles![index].title,
+                      image: _newsController.secondaryNewsResponse
+                          ?.secondaryArticles![index].urlToImage,
+                      time: _newsController.secondaryNewsResponse
+                          ?.secondaryArticles![index].publishedAt,
+                    ),),
               ],
             ),
           ),
-        ),
-      ),
     );
   }
 }

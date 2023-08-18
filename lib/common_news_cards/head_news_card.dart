@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:news_sample/textStyles.dart';
+import 'package:news_sample/utils.dart';
 
 
 class HeadNewsCard extends StatelessWidget {
-  const HeadNewsCard({super.key});
+  const HeadNewsCard({super.key, this.image, this.headLines, this.time});
+  final String? image;
+  final String? headLines;
+  final String? time;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 230,
+      height: MediaQuery.of(context).size.height/3,
+      width: MediaQuery.of(context).size.width,
       color: Colors.grey.shade900,
-      child: Padding(
+      child:
+      Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
             image: DecorationImage(
-                image: NetworkImage("https://image.cnbcfm.com/api/v1/image/107287752-1692217648051-aa8_img_100_99_112_1957665_1000-1692217569565.jpg?v=1692217809&w=1920&h=1080"),
+                image: NetworkImage(image ?? "https://images.wsj.net/im-836261/social"),
                 fit: BoxFit.cover
             ),
           ),
@@ -25,7 +31,7 @@ class HeadNewsCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text("Infosys, Relience, JSW steel, among Top gainers losers today; check full list",
+                Text(headLines??"headlines",
                   style: TextStyles.headerTitleTextStyle,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +42,7 @@ class HeadNewsCard extends StatelessWidget {
                         const SizedBox(width: 6),
                         const Icon(Icons.square, color: Colors.white, size: 10,),
                         const SizedBox(width: 6),
-                        Text("04:05 pm IST",style: TextStyles.headerItalicStyle,),
+                        Text(Utils.reportTimeFormat(time),style: TextStyles.headerItalicStyle,),
                         const SizedBox(width: 6),
                         const Icon(Icons.square, color: Colors.white, size: 10,),
                         const SizedBox(width: 6),
@@ -52,6 +58,9 @@ class HeadNewsCard extends StatelessWidget {
           ),
         ),
       ),
+
+
+
     );
   }
 }
